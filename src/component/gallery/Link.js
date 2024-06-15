@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 
 const Link = (props) => {
   const boxRef = useRef(null);
@@ -7,11 +7,8 @@ const Link = (props) => {
   const xPosition = useMotionValue(0);
   const yPosition = useMotionValue(0);
 
-  const xSpring = useSpring(xPosition);
-  const ySpring = useSpring(yPosition);
-
-  const imgTop = useTransform(ySpring, [0.5, -0.5], ["40%", "60%"]);
-  const imgLeft = useTransform(xSpring, [0.5, -0.5], ["60%", "70%"]);
+  const imgTop = useTransform(yPosition, [-0.5, 0.5], ["40%", "60%"]);
+  const imgLeft = useTransform(xPosition, [-0.5, 0.5], ["40%", "60%"]);
 
   const handleMouseMove = (e) => {
     const rect = boxRef.current.getBoundingClientRect();
@@ -30,21 +27,16 @@ const Link = (props) => {
   };
 
   useEffect(() => {
-    const updateMouseMove = (e) => {
-      if (boxRef.current) {
-        handleMouseMove(e);
-      }
-    };
     const currentBoxRef = boxRef.current;
     if (currentBoxRef) {
-      currentBoxRef.addEventListener("mousemove", updateMouseMove);
+      currentBoxRef.addEventListener("mousemove", handleMouseMove);
     }
     return () => {
       if (currentBoxRef) {
-        currentBoxRef.removeEventListener("mousemove", updateMouseMove);
+        currentBoxRef.removeEventListener("mousemove", handleMouseMove);
       }
     };
-  }, [boxRef]);
+  }, [boxRef, handleMouseMove]);
 
   return (
     <motion.div
