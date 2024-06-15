@@ -1,10 +1,10 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const Navbar = () => {
   const links = ["Home", "Services", "Gallery"];
-
+  const location = useLocation();
   const containerVariants = {
     hidden: { opacity: 0, y: -45 },
     show: {
@@ -19,15 +19,15 @@ const Navbar = () => {
     },
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: -45 },
-    show: { opacity: 1, y: 0 },
-  };
+  // const itemVariants = {
+  //   hidden: { opacity: 0, y: -45 },
+  //   show: { opacity: 1, y: 0 },
+  // };
 
   return (
     <motion.div
       variants={containerVariants}
-      initial="hidden"
+      initial={location.pathname === '/' ? 'hidden' : ''}
       animate="show"
       className="w-full h-14 pl-10 pt-2 pr-16 fixed top-0 left-0 bg-transparent items-center z-50 flex justify-between"
     >

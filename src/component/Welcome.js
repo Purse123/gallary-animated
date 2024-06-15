@@ -19,7 +19,7 @@ const Welcome = () => {
     }
 
   return (
-    <div className='h-screen w-full relative'>
+    <div className='h-screen w-full relative overflow-hidden'>
         <motion.div className='h-full w-full flex items-center justify-center bg-hero-image bg-center bg-no-repeat bg-cover brightness-[40%]'
         variants={bgAnimation} initial="hidden" animate="visible"
         >
