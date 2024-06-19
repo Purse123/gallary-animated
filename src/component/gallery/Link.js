@@ -1,14 +1,14 @@
 import React, { useRef, useEffect } from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 
-const Link = (props) => {
+const Link = ({ title, url, type }) => {
   const boxRef = useRef(null);
 
   const xPosition = useMotionValue(0);
   const yPosition = useMotionValue(0);
 
-  const imgTop = useTransform(yPosition, [-0.5, 0.5], ["40%", "60%"]);
-  const imgLeft = useTransform(xPosition, [-0.5, 0.5], ["40%", "60%"]);
+  const imgTop = useTransform(yPosition, [0.5, -0.5], ["40%", "60%"]);
+  const imgLeft = useTransform(xPosition, [0.5, -0.5], ["40%", "60%"]);
 
   const handleMouseMove = (e) => {
     const rect = boxRef.current.getBoundingClientRect();
@@ -38,6 +38,8 @@ const Link = (props) => {
     };
   }, [boxRef, handleMouseMove]);
 
+  const animDuration = 0.25;
+  const animStagger = 0.025;
   return (
     <motion.div
       ref={boxRef}
@@ -45,9 +47,58 @@ const Link = (props) => {
       whileHover="show"
       className="flex justify-between items-center w-full h-full relative"
     >
-      <h1 className="montserrat font-bold text-4xl uppercase tracking-wide">
-        {props.title}
-      </h1>
+      <motion.div className="montserrat font-bold text-4xl uppercase tracking-wide relative block overflow-hidden whitespace-nowrap">
+        <div>
+          {title.split("").map((letter, index) => { 
+            return (
+              <motion.span
+              className="inline-block"
+                variants={{
+                  hidden: {
+                    y: 0,
+                  },
+                  show: {
+                    y: "-100%",
+                  },
+                }}
+                transition={{
+                  duration: animDuration,
+                  ease: 'easeInOut',
+                  delay: animStagger * index
+                }}
+                key={index}
+              >
+                {letter}
+              </motion.span>
+            );
+          })}
+        </div>
+        <div className="text-orange-500 absolute inset-0">
+          {title.split("").map((letter, index) => {
+            return (
+              <motion.span
+              className="inline-block"
+                variants={{
+                  hidden: {
+                    y: "100%",
+                  },
+                  show: {
+                    y: 0,
+                  },
+                }}
+                transition={{
+                  duration: animDuration,
+                  ease: 'easeInOut',
+                  delay: animStagger * index
+                }}
+                key={index}
+              >
+                {letter}
+              </motion.span>
+            );
+          })}
+        </div>
+      </motion.div>
       <motion.img
         style={{
           top: imgTop,
@@ -56,7 +107,7 @@ const Link = (props) => {
           translateX: "-50%",
           translateY: "-50%",
         }}
-        src={props.url}
+        src={url}
         variants={{
           hidden: { scale: 0, rotate: "-10deg" },
           show: {
@@ -70,7 +121,7 @@ const Link = (props) => {
         className="aspect-video z-50 pointer-events-none"
       />
       <p className="montserrat font-normal text-xl uppercase tracking-tighter">
-        {props.type}
+        {type}
       </p>
     </motion.div>
   );
