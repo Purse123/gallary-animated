@@ -39,7 +39,7 @@ const Text = () => {
               delay: 1,
             },
           }}
-          className="pl-[25%] uppercase text-9xl font-extrabold tracking-tighter"
+          className="pl-[25%] uppercase text-5xl md:text-7xl lg:text-8xl xl:text-9xl sm:text-7xl font-extrabold tracking-tighter"
         >
           Trying
         </motion.div>
@@ -55,7 +55,7 @@ const Text = () => {
             delay: 1,
           },
         }}
-        className="pl-[25%] uppercase text-9xl font-extrabold tracking-tighter">
+        className="pl-[5%] sm:pl-[25%] uppercase text-5xl md:text-7xl lg:text-8xl xl:text-9xl sm:text-7xl font-extrabold tracking-tighter">
           Animations
         </motion.div>
       </div>
